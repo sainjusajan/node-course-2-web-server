@@ -1,10 +1,28 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Socket.IO chat</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Custom styles for this template -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font: 13px Helvetica, Arial; }
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+
         form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
         form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
@@ -13,14 +31,99 @@
         #messages li:nth-child(odd) { background: #eee; }
         #messages { margin-bottom: 40px }
     </style>
+
 </head>
+
 <body>
-<ul id="messages"></ul>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Chat based on Socket.io</h1>
+    </div>
+
+</div><!-- /.container -->
+
+<div class="container">
+    <div class="row chat-window col-xs-5 col-md-12" id="chat_window_1" style="margin-left:10px;margin-bottom: 100px">
+        <div class="col-xs-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading top-bar">
+                    <div class="col-md-8 col-xs-8">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat - Sajan Sainju</h3>
+                    </div>
+                    <!--<div class="col-md-4 col-xs-4" style="text-align: right;">-->
+                        <!--<a href="#"><span id="minim_chat_window" class="glyphicon glyphicon-minus icon_minim"></span></a>-->
+                        <!--<a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>-->
+                    <!--</div>-->
+                </div>
+                <div class="panel-body msg_container_base">
+
+                    <div class="row msg_container base_receive">
+                        <div class="col-md-1 col-xs-2 avatar">
+                            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+                        </div>
+                        <div class="col-md-10 col-xs-10">
+                            <div class="messages msg_receive">
+                                <p>that mongodb thing looks good, huh?
+                                    tiny master db, and huge document store</p>
+                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group dropup">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-cog"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="#" id="new_chat"><span class="glyphicon glyphicon-plus"></span> Novo</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-list"></span> Ver outras</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Fechar Tudo</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span> Invisivel</a></li>
+        </ul>
+    </div>
+</div>
 <form action="">
     <input id="m" autocomplete="off" /><button>Send</button>
 </form>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script>
     $(function () {
         var socket = io();
@@ -30,10 +133,57 @@
             return false;
         });
         socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
+            var now = new Date().toString();
+            $('.msg_container_base').append(`<div class="row msg_container base_receive">
+                        <div class="col-md-1 col-xs-2 avatar">
+                            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+                        </div>
+                        <div class="col-md-10 col-xs-10">
+                            <div class="messages msg_receive">
+                                <p>${msg}</p>
+                                <time datetime="${now}">Timothy • 51 min</time>
+                            </div>
+                        </div>
+                    </div>`);
             window.scrollTo(0, document.body.scrollHeight);
         });
     });
 </script>
+<script>
+    $(document).on('click', '.panel-heading span.icon_minim', function (e) {
+        var $this = $(this);
+        if (!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        }
+    });
+    $(document).on('focus', '.panel-footer input.chat_input', function (e) {
+        var $this = $(this);
+        if ($('#minim_chat_window').hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $('#minim_chat_window').removeClass('panel-collapsed');
+            $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        }
+    });
+    $(document).on('click', '#new_chat', function (e) {
+        var size = $( ".chat-window:last-child" ).css("margin-left");
+        size_total = parseInt(size) + 400;
+        alert(size_total);
+        var clone = $( "#chat_window_1" ).clone().appendTo( ".container" );
+        clone.css("margin-left", size_total);
+    });
+    $(document).on('click', '.icon_close', function (e) {
+        //$(this).parent().parent().parent().parent().remove();
+        $( "#chat_window_1" ).remove();
+    });
+
+</script>
 </body>
 </html>
+
+
